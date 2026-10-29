@@ -18,11 +18,11 @@ export function CategoryCard({ title, description, toolCount, category }: Catego
   const href = `/${category}`;
 
   return (
-    <Link href={href} className="block group">
-      <Card className="transition-all duration-300 hover:shadow-md hover:border-primary/40">
+    <Link href={href} className="block group h-full">
+      <Card className="h-full rounded-2xl border-border/80 bg-card/80 shadow-sm backdrop-blur-xl transition-all duration-300 group-hover:border-primary/40 group-hover:shadow-lg">
         <CardContent className="p-6">
           <div className="flex items-start gap-4">
-            <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center text-2xl group-hover:scale-105 transition-transform">
+            <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center text-2xl group-hover:scale-105 group-hover:bg-primary group-hover:text-primary-foreground transition-all">
               <CategoryIcon category={category} />
             </div>
             <div className="flex-1 min-w-0">

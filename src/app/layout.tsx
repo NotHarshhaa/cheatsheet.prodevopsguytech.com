@@ -1,10 +1,9 @@
 import type { Metadata, Viewport } from "next";
-import { Manrope } from "next/font/google";
+import { Manrope, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { ScrollToTop } from "@/components/ScrollToTop";
-import { GlobalLoader } from "@/components/GlobalLoader";
 import { Toaster } from "react-hot-toast";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { themeScript } from "@/utils/themeScript";
@@ -15,6 +14,12 @@ import { cn } from "@/lib/utils";
 const manrope = Manrope({
   subsets: ["latin"],
   variable: "--font-sans",
+  display: "swap",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-jetbrains",
   display: "swap",
 });
 
@@ -92,7 +97,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={cn("h-full", manrope.variable)}>
+    <html lang="en" className={cn("h-full", manrope.variable, jetbrainsMono.variable)}>
       <head>
         {/* Set the theme class before first paint to avoid a flash */}
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
@@ -102,7 +107,6 @@ export default function RootLayout({
       >
         <ThemeProvider>
           <TooltipProvider>
-            <GlobalLoader />
             <CommandMenu />
             <Header />
             <main className="flex-grow pt-24">{children}</main>

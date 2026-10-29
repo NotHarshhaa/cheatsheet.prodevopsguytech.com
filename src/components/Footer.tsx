@@ -72,7 +72,7 @@ export function Footer() {
               <div className="w-9 h-9 rounded-xl bg-primary/10 border border-primary/30 flex items-center justify-center text-primary group-hover:scale-105 transition-transform">
                 <Terminal className="w-4 h-4" />
               </div>
-              <span className="text-xl font-black font-mono tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-600">
+              <span className="text-gradient text-xl font-black font-mono tracking-tight">
                 DEVOPS<span className="text-foreground">//</span>HUB
               </span>
             </Link>

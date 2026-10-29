@@ -11,7 +11,7 @@ async function processMarkdownFiles() {
 
   for (const category of categories) {
     try {
-      const categoryPath = path.join(process.cwd(), category);
+      const categoryPath = path.join(process.cwd(), 'cheatsheets', category);
       const files = await fs.readdir(categoryPath);
       
       for (const file of files) {

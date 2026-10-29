@@ -526,7 +526,7 @@ spec:
                   <Button
                     size="sm"
                     onClick={() => copyToClipboard(k8sYaml, 'k8s')}
-                    className="rounded-xl text-xs font-mono gap-1.5 h-8 bg-blue-600 hover:bg-blue-700 text-white cursor-pointer"
+                    className="rounded-xl text-xs font-mono gap-1.5 h-8 bg-primary text-primary-foreground hover:bg-primary/90 cursor-pointer"
                   >
                     {copiedKey === 'k8s' ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
                     <span>{copiedKey === 'k8s' ? 'Copied' : 'Copy YAML'}</span>

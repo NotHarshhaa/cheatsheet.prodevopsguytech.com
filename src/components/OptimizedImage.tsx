@@ -80,7 +80,7 @@ function OptimizedImageComponent({
       {/* Blur placeholder effect during loading */}
       {!isLoaded && !hasError && (
         <div
-          className="absolute inset-0 bg-gray-200 dark:bg-gray-800 animate-pulse"
+          className="absolute inset-0 bg-muted animate-pulse"
           style={{
             backdropFilter: "blur(8px)",
             WebkitBackdropFilter: "blur(8px)",

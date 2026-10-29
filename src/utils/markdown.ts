@@ -59,7 +59,7 @@ export async function getCheatsheetBySlug(category: string, slug: string): Promi
       return null;
     }
 
-    const fullPath = path.join(process.cwd(), category, `${slug}.md`);
+    const fullPath = path.join(process.cwd(), 'cheatsheets', category, `${slug}.md`);
     const fileContents = await fs.readFile(fullPath, 'utf8');
     
     // Parse frontmatter if it exists, otherwise use the whole content
@@ -96,7 +96,7 @@ export async function getAllCheatsheets(category: string | '' = '', page = 1, li
       if (!isSafeSegment(cat)) {
         continue;
       }
-      const categoryPath = path.join(process.cwd(), cat);
+      const categoryPath = path.join(process.cwd(), 'cheatsheets', cat);
       
       try {
         const files = await fs.readdir(categoryPath);

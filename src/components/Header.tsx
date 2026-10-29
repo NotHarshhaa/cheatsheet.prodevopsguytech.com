@@ -85,7 +85,7 @@ export function Header() {
             </div>
             <div className="flex flex-col">
               <div className="flex items-center gap-1.5">
-                <span className="text-base sm:text-lg font-black tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-600 dark:from-cyan-400 dark:via-blue-400 dark:to-purple-400 font-mono">
+                <span className="text-gradient text-base font-black tracking-tight sm:text-lg">
                   DEVOPS<span className="text-foreground">//</span>HUB
                 </span>
                 <Badge variant="outline" className="hidden sm:inline-flex text-[9px] px-1 py-0 font-mono text-cyan-600 dark:text-cyan-400 border-cyan-500/30">
@@ -279,7 +279,7 @@ export function Header() {
             <Link href="/contribute">
               <Button
                 size="sm"
-                className="h-9 px-3 lg:px-3.5 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-md gap-1.5 text-xs font-semibold border-0 cursor-pointer"
+                className="h-9 px-3 lg:px-3.5 rounded-xl bg-gradient-to-r from-cyan-500 via-blue-600 to-purple-600 hover:from-cyan-600 hover:to-purple-700 text-white shadow-md gap-1.5 text-xs font-semibold border-0 cursor-pointer"
               >
                 <Heart className="w-3.5 h-3.5 text-red-300 fill-red-300" />
                 <span className="hidden lg:inline">Contribute</span>
@@ -362,7 +362,9 @@ export function Header() {
                     { name: "Containers", path: "Containerization", icon: Box },
                     { name: "Cloud", path: "Cloud", icon: Cloud },
                     { name: "IaC & Terraform", path: "Infrastructure-Management", icon: Server },
+                    { name: "Version Control", path: "Version-Control", icon: GitBranch },
                     { name: "Security", path: "Security", icon: Shield },
+                    { name: "Networking", path: "Networking", icon: Network },
                     { name: "Monitoring", path: "Monitoring", icon: BarChart2 },
                   ].map((c) => {
                     const Icon = c.icon;

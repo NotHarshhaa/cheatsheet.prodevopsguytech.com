@@ -1,541 +1,426 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion, Variants, Transition } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import {
-  FaGithub,
-  FaCode,
-  FaStar,
-  FaUsers,
-  FaBook,
-  FaCheckCircle,
-  FaLightbulb,
-  FaRocket,
-  FaHeartbeat,
-  FaRegSmile,
-  FaComment,
-  FaUserAstronaut,
-} from "react-icons/fa";
-import { BiGitPullRequest } from "react-icons/bi";
-import { BsChatSquareText } from "react-icons/bs";
-import { HiOutlineArrowNarrowRight, HiOutlineCheck } from "react-icons/hi";
+  Github,
+  Code,
+  Star,
+  Users,
+  BookOpen,
+  CheckCircle2,
+  Lightbulb,
+  Rocket,
+  Heart,
+  Smile,
+  MessageSquare,
+  ArrowRight,
+  Check,
+  GitPullRequest,
+  Quote,
+  UserRound,
+} from "lucide-react";
+import { motion } from "framer-motion";
+import { HudEyebrow } from "@/components/shared/HudEyebrow";
+import { StatusPill } from "@/components/shared/StatusPill";
+import { AnimatedCounter } from "@/components/shared/AnimatedCounter";
+import { SectionHeader } from "@/components/shared/SectionHeader";
+import { Reveal } from "@/components/shared/Reveal";
+import { GlowCard } from "@/components/shared/GlowCard";
+import { cn } from "@/lib/utils";
+
+const GITHUB_REPO = "https://github.com/NotHarshhaa/devops-cheatsheet";
+
+const CONTRIBUTION_STEPS = [
+  {
+    icon: Github,
+    title: "Fork the Repository",
+    description:
+      "Start by forking the DevOps Cheatsheet repository to your GitHub account. This creates your own copy of the project to work with.",
+    link: `${GITHUB_REPO}/fork`,
+    linkText: "Fork Now",
+    accent: "border-cyan-500/30 bg-cyan-500/10 text-cyan-500",
+    dot: "border-cyan-500",
+  },
+  {
+    icon: Code,
+    title: "Make Your Changes",
+    description:
+      "Add new tools, update existing content, or fix issues in your forked repository. Follow our contribution guidelines for best results.",
+    link: `${GITHUB_REPO}/blob/master/CONTRIBUTING.md`,
+    linkText: "View Guidelines",
+    accent: "border-purple-500/30 bg-purple-500/10 text-purple-500",
+    dot: "border-purple-500",
+  },
+  {
+    icon: GitPullRequest,
+    title: "Submit a Pull Request",
+    description:
+      "Create a pull request with your changes for review by the maintainers. We'll help you get your contribution ready to merge.",
+    link: `${GITHUB_REPO}/pulls`,
+    linkText: "Create PR",
+    accent: "border-emerald-500/30 bg-emerald-500/10 text-emerald-500",
+    dot: "border-emerald-500",
+  },
+] as const;
+
+const CONTRIBUTION_AREAS = [
+  {
+    title: "Add New Tools",
+    description:
+      "Share your knowledge about DevOps tools not yet covered in the cheatsheet. Expand our resources to help others discover new technologies.",
+    icon: BookOpen,
+    accent: "bg-cyan-500/10 text-cyan-500",
+  },
+  {
+    title: "Improve Documentation",
+    description:
+      "Help make our documentation more comprehensive and easier to understand. Clear explanations and examples make learning DevOps more accessible.",
+    icon: MessageSquare,
+    accent: "bg-purple-500/10 text-purple-500",
+  },
+  {
+    title: "Fix Issues",
+    description:
+      "Help resolve open issues and improve the quality of the cheatsheet. Every bug fix and enhancement makes the project more valuable to the community.",
+    icon: CheckCircle2,
+    accent: "bg-emerald-500/10 text-emerald-500",
+  },
+] as const;
+
+const TESTIMONIALS = [
+  {
+    quote:
+      "Contributing to this project helped me solidify my DevOps knowledge while helping others.",
+    author: "Sarah K.",
+    role: "Senior DevOps Engineer",
+    avatar: "https://randomuser.me/api/portraits/women/32.jpg",
+  },
+  {
+    quote:
+      "The maintainers were so helpful in guiding me through my first open-source contribution!",
+    author: "Michael T.",
+    role: "Cloud Architect",
+    avatar: "https://randomuser.me/api/portraits/men/46.jpg",
+  },
+  {
+    quote:
+      "I've learned so much by collaborating with this amazing community of DevOps professionals.",
+    author: "Jamie L.",
+    role: "SRE Lead",
+    avatar: "https://randomuser.me/api/portraits/women/68.jpg",
+  },
+] as const;
+
+const GUIDELINES = [
+  "Ensure your contribution follows our code of conduct and style guidelines",
+  "Test your changes locally before submitting a pull request",
+  "Include clear commit messages and documentation updates",
+  "Be responsive to feedback and questions about your contribution",
+  "Help review other contributions when possible",
+  "Follow the pull request template for better documentation",
+  "Add appropriate tests when implementing new features",
+  "Update documentation when necessary",
+] as const;
 
 export default function ContributePage() {
   const [activeStep, setActiveStep] = useState(0);
-  const [isVisible, setIsVisible] = useState(false);
 
+  // Auto-advance the step spotlight unless the user prefers reduced motion.
   useEffect(() => {
-    setIsVisible(true);
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduceMotion) return;
 
-    // Auto-advance steps every 4 seconds
     const interval = setInterval(() => {
-      setActiveStep((prev) => (prev === 2 ? 0 : prev + 1));
+      setActiveStep((prev) => (prev === CONTRIBUTION_STEPS.length - 1 ? 0 : prev + 1));
     }, 4000);
-
     return () => clearInterval(interval);
   }, []);
 
-  const contributionSteps = [
-    {
-      icon: <FaGithub className="w-7 h-7" />,
-      title: "Fork the Repository",
-      description:
-        "Start by forking the DevOps Cheatsheet repository to your GitHub account. This creates your own copy of the project to work with.",
-      link: "https://github.com/NotHarshhaa/devops-cheatsheet/fork",
-      linkText: "Fork Now",
-      color: "blue",
-    },
-    {
-      icon: <FaCode className="w-7 h-7" />,
-      title: "Make Your Changes",
-      description:
-        "Add new tools, update existing content, or fix issues in your forked repository. Follow our contribution guidelines for best results.",
-      link: "https://github.com/NotHarshhaa/devops-cheatsheet/blob/master/CONTRIBUTING.md",
-      linkText: "View Guidelines",
-      color: "purple",
-    },
-    {
-      icon: <BiGitPullRequest className="w-7 h-7" />,
-      title: "Submit a Pull Request",
-      description:
-        "Create a pull request with your changes for review by the maintainers. We'll help you get your contribution ready to merge.",
-      link: "https://github.com/NotHarshhaa/devops-cheatsheet/pulls",
-      linkText: "Create PR",
-      color: "green",
-    },
-  ];
-
-  const contributionAreas = [
-    {
-      title: "Add New Tools",
-      description:
-        "Share your knowledge about DevOps tools not yet covered in the cheatsheet. Expand our resources to help others discover new technologies.",
-      icon: <FaBook className="w-6 h-6 text-blue-500 dark:text-blue-400" />,
-      bg: "bg-blue-50 dark:bg-blue-900/20",
-      color: "text-blue-600 dark:text-blue-400",
-      border: "border-blue-100 dark:border-blue-800",
-    },
-    {
-      title: "Improve Documentation",
-      description:
-        "Help make our documentation more comprehensive and easier to understand. Clear explanations and examples make learning DevOps more accessible.",
-      icon: (
-        <BsChatSquareText className="w-6 h-6 text-purple-500 dark:text-purple-400" />
-      ),
-      bg: "bg-purple-50 dark:bg-purple-900/20",
-      color: "text-purple-600 dark:text-purple-400",
-      border: "border-purple-100 dark:border-purple-800",
-    },
-    {
-      title: "Fix Issues",
-      description:
-        "Help resolve open issues and improve the quality of the cheatsheet. Every bug fix and enhancement makes the project more valuable to the community.",
-      icon: (
-        <FaCheckCircle className="w-6 h-6 text-green-500 dark:text-green-400" />
-      ),
-      bg: "bg-green-50 dark:bg-green-900/20",
-      color: "text-green-600 dark:text-green-400",
-      border: "border-green-100 dark:border-green-800",
-    },
-  ];
-
-  const testimonials = [
-    {
-      quote:
-        "Contributing to this project helped me solidify my DevOps knowledge while helping others.",
-      author: "Sarah K.",
-      role: "Senior DevOps Engineer",
-      avatar: "https://randomuser.me/api/portraits/women/32.jpg",
-    },
-    {
-      quote:
-        "The maintainers were so helpful in guiding me through my first open-source contribution!",
-      author: "Michael T.",
-      role: "Cloud Architect",
-      avatar: "https://randomuser.me/api/portraits/men/46.jpg",
-    },
-    {
-      quote:
-        "I've learned so much by collaborating with this amazing community of DevOps professionals.",
-      author: "Jamie L.",
-      role: "SRE Lead",
-      avatar: "https://randomuser.me/api/portraits/women/68.jpg",
-    },
-  ];
-
-  const fadeIn: Variants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        type: "tween",
-        duration: 0.6
-      } as Transition,
-    },
-  };
-
-  const staggerContainer: Variants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        type: "tween",
-        staggerChildren: 0.1,
-      } as Transition,
-    },
-  };
-
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-900 dark:to-blue-950/30">
-      {/* Hero Section with Animated Elements */}
-      <section className="relative overflow-hidden">
-        {/* Decorative Elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -left-20 top-20 w-60 h-60 rounded-full bg-blue-400/10 dark:bg-blue-400/10 blur-3xl"></div>
-          <div className="absolute right-0 top-0 w-72 h-72 rounded-full bg-purple-400/10 dark:bg-purple-400/10 blur-3xl"></div>
+    <div className="relative min-h-screen bg-background text-foreground">
+      {/* Hero */}
+      <section className="bg-cyber-grid mask-fade-b relative pb-16 pt-14 sm:pt-20">
+        <div className="hero-glow pointer-events-none absolute inset-0 -z-10" />
 
-          {/* Code Blocks Animation */}
-          <div className="absolute top-40 -right-10 transform rotate-12 opacity-20 hidden lg:block">
-            <pre className="text-xs font-mono text-blue-900 dark:text-blue-300">
-              <code>
-                {`git clone https://github.com/user/devops-cheatsheet.git\ncd devops-cheatsheet\nnpm install\ngit checkout -b feature/new-tool\n# Make changes\ngit add .\ngit commit -m "Add new tool guide"\ngit push origin feature/new-tool`}
-              </code>
-            </pre>
-          </div>
+        <div className="relative z-10 mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
+          <Reveal>
+            <div className="mb-6 flex justify-center">
+              <StatusPill label="OPEN SOURCE // COMMUNITY DRIVEN" badge="JOIN US" />
+            </div>
 
-          <div className="absolute bottom-20 -left-10 transform -rotate-12 opacity-20 hidden lg:block">
-            <pre className="text-xs font-mono text-purple-900 dark:text-purple-300">
-              <code>
-                {`<!-- Adding a new tool -->
-<ToolCard
-  name="Awesome Tool"
-  category="CI/CD"
-  description="This tool helps with..."
-  link="https://tool-url.com"
-/>`}
-              </code>
-            </pre>
-          </div>
-        </div>
+            <HudEyebrow icon={Heart} className="mb-3 justify-center uppercase">
+              Join our community
+            </HudEyebrow>
+            <h1 className="mx-auto mb-6 max-w-4xl text-4xl font-black tracking-tight text-foreground sm:text-6xl">
+              Contribute to <span className="text-gradient">DevOps Cheatsheet</span>
+            </h1>
+            <p className="mx-auto mb-10 max-w-3xl text-base leading-relaxed text-muted-foreground sm:text-xl">
+              Help us make DevOps knowledge more accessible to everyone. Your contributions, big
+              or small, make a significant difference!
+            </p>
 
-        <div className="bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-800 dark:to-purple-800 text-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center relative z-10">
-            <motion.div
-              initial="hidden"
-              animate={isVisible ? "visible" : "hidden"}
-              variants={fadeIn}
+            <div className="mb-10 flex flex-wrap justify-center gap-8 font-mono text-xs">
+              {[
+                { icon: Users, label: "Contributors", value: 100, suffix: "+" },
+                { icon: Star, label: "Stars", value: 500, suffix: "+" },
+                { icon: GitPullRequest, label: "PRs Merged", value: 200, suffix: "+" },
+              ].map((stat) => {
+                const Icon = stat.icon;
+                return (
+                  <div key={stat.label} className="flex items-center gap-2 text-muted-foreground">
+                    <Icon className="h-4 w-4 text-primary" />
+                    <span className="font-semibold text-foreground">
+                      <AnimatedCounter value={stat.value} suffix={stat.suffix} />
+                    </span>
+                    <span>{stat.label}</span>
+                  </div>
+                );
+              })}
+            </div>
+
+            <a
+              href={GITHUB_REPO}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-cyan-500 via-blue-600 to-purple-600 px-6 py-3 font-semibold text-white shadow-lg transition-all hover:from-cyan-600 hover:to-purple-700 hover:shadow-xl"
             >
-              <div className="inline-flex items-center mb-6 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm">
-                <FaHeartbeat className="w-5 h-5 text-pink-300 mr-2" />
-                <span className="text-sm font-medium">Join our community</span>
-              </div>
-
-              <h1 className="text-5xl sm:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-blue-100">
-                Contribute to DevOps Cheatsheet
-              </h1>
-
-              <p className="text-xl text-blue-100 max-w-3xl mx-auto mb-8 leading-relaxed">
-                Help us make DevOps knowledge more accessible to everyone. Your
-                contributions, big or small, make a significant difference!
-              </p>
-
-              <div className="flex flex-wrap justify-center gap-8 mb-12">
-                <div className="flex items-center gap-2 text-blue-100">
-                  <FaUsers className="w-5 h-5" />
-                  <span className="font-semibold text-white">
-                    100+ Contributors
-                  </span>
-                </div>
-                <div className="flex items-center gap-2 text-blue-100">
-                  <FaStar className="w-5 h-5 text-yellow-300" />
-                  <span className="font-semibold text-white">500+ Stars</span>
-                </div>
-                <div className="flex items-center gap-2 text-blue-100">
-                  <BiGitPullRequest className="w-5 h-5" />
-                  <span className="font-semibold text-white">
-                    200+ PRs Merged
-                  </span>
-                </div>
-              </div>
-
-              <a
-                href="https://github.com/NotHarshhaa/devops-cheatsheet"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-white text-blue-700 px-6 py-3 rounded-lg font-medium hover:bg-blue-50 transition-colors shadow-md hover:shadow-lg"
-              >
-                <FaGithub className="w-5 h-5" />
-                View on GitHub
-              </a>
-            </motion.div>
-          </div>
-
-          {/* Wave divider */}
-          <div className="relative w-full">
-            <svg
-              className="w-full h-auto text-gray-50 dark:text-gray-900 fill-current"
-              viewBox="0 0 1440 120"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path d="M0,64L60,64C120,64,240,64,360,58.7C480,53,600,43,720,42.7C840,43,960,53,1080,58.7C1200,64,1320,64,1380,64L1440,64L1440,120L1380,120C1320,120,1200,120,1080,120C960,120,840,120,720,120C600,120,480,120,360,120C240,120,120,120,60,120L0,120Z"></path>
-            </svg>
-          </div>
+              <Github className="h-5 w-5" />
+              View on GitHub
+            </a>
+          </Reveal>
         </div>
       </section>
 
-      {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-10">
-        {/* How to Contribute Section with Interactive Steps */}
-        <motion.div
-          className="mb-24"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={staggerContainer}
-        >
-          <div className="text-center mb-16">
-            <motion.div
-              variants={fadeIn}
-              className="inline-flex items-center mb-4 px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300"
-            >
-              <FaRocket className="w-4 h-4 mr-2" />
-              <span className="text-sm font-medium">Simple Process</span>
-            </motion.div>
+      <div className="relative z-10 mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+        {/* How to Contribute */}
+        <section className="mb-24">
+          <Reveal>
+            <SectionHeader
+              align="center"
+              eyebrow="Simple Process"
+              eyebrowIcon={Rocket}
+              title="How to Contribute"
+              description="Follow these steps to make your first contribution to our DevOps Cheatsheet"
+            />
+          </Reveal>
 
-            <motion.h2
-              variants={fadeIn}
-              className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4"
-            >
-              How to Contribute
-            </motion.h2>
+          <div className="relative flex flex-col gap-10 md:flex-row md:gap-8">
+            {/* Step spine */}
+            <div className="absolute bottom-0 left-1/2 top-0 hidden w-px -translate-x-1/2 bg-gradient-to-b from-cyan-500/50 via-purple-500/40 to-emerald-500/50 md:block" />
 
-            <motion.p
-              variants={fadeIn}
-              className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto"
-            >
-              Follow these steps to make your first contribution to our DevOps
-              Cheatsheet
-            </motion.p>
-          </div>
-
-          <div className="flex flex-col md:flex-row gap-8 relative">
-            {/* Step timeline line */}
-            <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-500 via-purple-500 to-green-500 transform -translate-x-1/2 rounded-full z-0"></div>
-
-            {contributionSteps.map((step, index) => (
-              <motion.div
-                key={index}
-                variants={fadeIn}
-                className={`relative z-10 flex-1 ${index === activeStep ? "md:scale-105" : "md:scale-100"} transition-all duration-300`}
-              >
-                <div
-                  className={`h-full bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 p-8 ${
-                    index === activeStep
-                      ? "ring-2 ring-offset-2 ring-blue-500 dark:ring-blue-400 dark:ring-offset-gray-900"
-                      : ""
-                  }`}
-                >
-                  {/* Step number */}
-                  <div className="absolute -top-5 left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full bg-white dark:bg-gray-800 border-4 border-blue-500 dark:border-blue-400 flex items-center justify-center text-blue-600 dark:text-blue-400 font-bold">
-                    {index + 1}
-                  </div>
-
-                  <div className="flex flex-col items-center text-center pt-4">
+            {CONTRIBUTION_STEPS.map((step, index) => {
+              const Icon = step.icon;
+              const isActive = index === activeStep;
+              return (
+                <Reveal key={step.title} delay={index * 0.08} className="flex-1">
+                  <div
+                    className={cn(
+                      "relative h-full transition-all duration-300 md:scale-100",
+                      isActive && "md:scale-105"
+                    )}
+                  >
+                    {/* Step node */}
                     <div
-                      className={`flex items-center justify-center w-16 h-16 rounded-2xl bg-${step.color}-100 dark:bg-${step.color}-900/30 text-${step.color}-600 dark:text-${step.color}-400 mb-6`}
+                      className={cn(
+                        "absolute -top-4 left-1/2 z-10 flex h-9 w-9 -translate-x-1/2 items-center justify-center rounded-full border-4 bg-background font-mono text-xs font-bold shadow-md",
+                        step.dot,
+                        isActive ? "text-foreground" : "text-muted-foreground"
+                      )}
                     >
-                      {step.icon}
+                      {index + 1}
                     </div>
-                    <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
-                      {step.title}
-                    </h3>
-                    <p className="text-gray-600 dark:text-gray-400 mb-6 min-h-[80px]">
-                      {step.description}
-                    </p>
-                    <a
-                      href={step.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`inline-flex items-center px-5 py-2.5 rounded-lg bg-${step.color}-100 dark:bg-${step.color}-900/30 text-${step.color}-700 dark:text-${step.color}-300 hover:bg-${step.color}-200 dark:hover:bg-${step.color}-800/30 font-medium transition-colors`}
+
+                    <GlowCard
+                      className="h-full rounded-2xl"
+                      glowRgb={index === 0 ? "34 211 238" : index === 1 ? "168 85 247" : "16 185 129"}
                     >
-                      {step.linkText}
-                      <HiOutlineArrowNarrowRight className="w-5 h-5 ml-2" />
-                    </a>
+                      <div
+                        className={cn(
+                          "flex h-full flex-col items-center rounded-2xl border bg-card p-8 pt-10 text-center shadow-md transition-all",
+                          isActive ? "border-primary/50 shadow-lg" : "border-border/80"
+                        )}
+                      >
+                        <div className={cn("mb-6 flex h-16 w-16 items-center justify-center rounded-2xl border", step.accent)}>
+                          <Icon className="h-7 w-7" />
+                        </div>
+                        <h3 className="mb-4 font-mono text-xl font-bold text-foreground">
+                          {step.title}
+                        </h3>
+                        <p className="mb-6 min-h-20 text-sm text-muted-foreground">
+                          {step.description}
+                        </p>
+                        <a
+                          href={step.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={cn(
+                            "inline-flex items-center gap-2 rounded-xl border px-5 py-2.5 font-mono text-xs font-semibold transition-all hover:shadow-md",
+                            step.accent
+                          )}
+                        >
+                          {step.linkText}
+                          <ArrowRight className="h-4 w-4" />
+                        </a>
+                      </div>
+                    </GlowCard>
                   </div>
-                </div>
-              </motion.div>
-            ))}
+                </Reveal>
+              );
+            })}
           </div>
-        </motion.div>
+        </section>
 
-        {/* What You Can Contribute Section */}
-        <motion.div
-          className="mb-24"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={staggerContainer}
-        >
-          <div className="text-center mb-16">
-            <motion.div
-              variants={fadeIn}
-              className="inline-flex items-center mb-4 px-3 py-1 rounded-full bg-purple-100 dark:bg-purple-900/50 text-purple-700 dark:text-purple-300"
-            >
-              <FaLightbulb className="w-4 h-4 mr-2" />
-              <span className="text-sm font-medium">Opportunities</span>
-            </motion.div>
+        {/* What You Can Contribute */}
+        <section className="mb-24">
+          <Reveal>
+            <SectionHeader
+              align="center"
+              eyebrow="Opportunities"
+              eyebrowIcon={Lightbulb}
+              title="What You Can Contribute"
+              description="There are many ways to help improve the DevOps Cheatsheet"
+            />
+          </Reveal>
 
-            <motion.h2
-              variants={fadeIn}
-              className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4"
-            >
-              What You Can Contribute
-            </motion.h2>
-
-            <motion.p
-              variants={fadeIn}
-              className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto"
-            >
-              There are many ways to help improve the DevOps Cheatsheet
-            </motion.p>
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+            {CONTRIBUTION_AREAS.map((area, index) => {
+              const Icon = area.icon;
+              return (
+                <Reveal key={area.title} delay={index * 0.08}>
+                  <GlowCard className="h-full rounded-2xl">
+                    <div className="h-full rounded-2xl border border-border/80 bg-card p-8 shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-xl">
+                      <div className={cn("mb-6 flex h-16 w-16 items-center justify-center rounded-2xl", area.accent)}>
+                        <Icon className="h-7 w-7" />
+                      </div>
+                      <h3 className="mb-4 font-mono text-xl font-bold text-foreground">{area.title}</h3>
+                      <p className="text-sm leading-relaxed text-muted-foreground">{area.description}</p>
+                    </div>
+                  </GlowCard>
+                </Reveal>
+              );
+            })}
           </div>
+        </section>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {contributionAreas.map((area, index) => (
-              <motion.div
-                key={index}
-                variants={fadeIn}
-                whileHover={{ y: -10 }}
-                className={`bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg border ${area.border} hover:shadow-xl transition-all duration-300`}
-              >
-                <div
-                  className={`w-16 h-16 rounded-2xl ${area.bg} flex items-center justify-center mb-6`}
-                >
-                  <div className={`${area.color}`}>{area.icon}</div>
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
-                  {area.title}
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400">
-                  {area.description}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
+        {/* Testimonials */}
+        <section className="mb-24">
+          <Reveal>
+            <div className="hud-panel rounded-3xl p-8 shadow-lg lg:p-12">
+              <div className="mb-12 text-center">
+                <HudEyebrow icon={Smile} className="mb-3 justify-center uppercase">
+                  Contributor Stories
+                </HudEyebrow>
+                <h2 className="text-3xl font-black tracking-tight text-foreground">
+                  Hear From Our Contributors
+                </h2>
+              </div>
 
-        {/* Testimonials Section */}
-        <motion.div
-          className="mb-24 bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 lg:p-12"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={fadeIn}
-        >
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center mb-4 px-3 py-1 rounded-full bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300">
-              <FaRegSmile className="w-4 h-4 mr-2" />
-              <span className="text-sm font-medium">Contributor Stories</span>
+              <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+                {TESTIMONIALS.map((testimonial) => (
+                  <div
+                    key={testimonial.author}
+                    className="relative rounded-2xl border border-border/60 bg-background/60 p-6"
+                  >
+                    <Quote className="absolute -left-2 -top-2 h-7 w-7 rounded-full bg-card p-1.5 text-primary" />
+                    <blockquote className="mb-6 text-sm italic leading-relaxed text-foreground/90">
+                      &ldquo;{testimonial.quote}&rdquo;
+                    </blockquote>
+                    <div className="flex items-center gap-4">
+                      <Image
+                        src={testimonial.avatar}
+                        alt={testimonial.author}
+                        className="h-11 w-11 rounded-full border border-border/60 object-cover"
+                        width={44}
+                        height={44}
+                      />
+                      <div>
+                        <div className="text-sm font-semibold text-foreground">{testimonial.author}</div>
+                        <div className="font-mono text-xs text-muted-foreground">{testimonial.role}</div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
+          </Reveal>
+        </section>
 
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-              Hear From Our Contributors
-            </h2>
-          </div>
+        {/* CTA */}
+        <Reveal>
+          <div className="gradient-border relative overflow-hidden rounded-3xl shadow-xl">
+            <div className="bg-cyber-grid relative bg-zinc-950 p-12 text-center md:p-16">
+              <div className="hero-glow pointer-events-none absolute inset-0" />
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <div
-                key={index}
-                className="bg-gray-50 dark:bg-gray-900 rounded-xl p-6 border border-gray-100 dark:border-gray-700 relative"
-              >
-                <div className="mb-6">
-                  <FaComment className="w-8 h-8 text-blue-100 dark:text-blue-900 absolute -top-4 -left-4" />
-                  <blockquote className="text-gray-700 dark:text-gray-300 italic">
-                    &ldquo;{testimonial.quote}&rdquo;
-                  </blockquote>
-                </div>
-                <div className="flex items-center gap-4">
-                  <Image
-                    src={testimonial.avatar}
-                    alt={testimonial.author}
-                    className="w-12 h-12 rounded-full object-cover"
-                    width={48}
-                    height={48}
-                  />
-                  <div>
-                    <div className="font-medium text-gray-900 dark:text-white">
-                      {testimonial.author}
-                    </div>
-                    <div className="text-sm text-gray-500 dark:text-gray-400">
-                      {testimonial.role}
-                    </div>
-                  </div>
+              <div className="relative z-[1]">
+                <UserRound className="mx-auto mb-6 h-14 w-14 text-cyan-400" />
+                <h2 className="mb-6 font-mono text-3xl font-bold text-white">
+                  Ready to Make Your First Contribution?
+                </h2>
+                <p className="mx-auto mb-8 max-w-2xl text-sm text-zinc-400 sm:text-base">
+                  Whether you&apos;re fixing a typo or adding a new tool guide, every contribution
+                  helps make DevOps Cheatsheet better for everyone. Join our growing community
+                  today!
+                </p>
+
+                <div className="flex flex-wrap justify-center gap-4">
+                  <a
+                    href={GITHUB_REPO}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3 font-medium text-zinc-900 shadow-md transition-colors hover:bg-zinc-100"
+                  >
+                    <Github className="h-5 w-5" />
+                    View on GitHub
+                  </a>
+                  <Link
+                    href="/categories"
+                    className="inline-flex items-center gap-2 rounded-xl border border-zinc-700 bg-zinc-900/60 px-6 py-3 font-medium text-zinc-100 shadow-md backdrop-blur-sm transition-colors hover:bg-zinc-800"
+                  >
+                    <BookOpen className="h-5 w-5" />
+                    Browse Categories
+                  </Link>
                 </div>
               </div>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* CTA Section */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={fadeIn}
-          className="relative overflow-hidden"
-        >
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-700 dark:to-purple-700 rounded-3xl"></div>
-          <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
-
-          <div className="relative p-12 md:p-16 text-center text-white">
-            <FaUserAstronaut className="w-16 h-16 mx-auto mb-6 text-white/80" />
-
-            <h2 className="text-3xl font-bold mb-6">
-              Ready to Make Your First Contribution?
-            </h2>
-
-            <p className="text-blue-100 mb-8 max-w-2xl mx-auto">
-              Whether you&apos;re fixing a typo or adding a new tool guide, every
-              contribution helps make DevOps Cheatsheet better for everyone.
-              Join our growing community today!
-            </p>
-
-            <div className="flex flex-wrap justify-center gap-4">
-              <a
-                href="https://github.com/NotHarshhaa/devops-cheatsheet"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-white text-gray-900 px-6 py-3 rounded-lg hover:bg-gray-100 transition-colors shadow-md font-medium"
-              >
-                <FaGithub className="w-5 h-5" />
-                View on GitHub
-              </a>
-
-              <Link
-                href="/categories"
-                className="inline-flex items-center gap-2 bg-blue-700 text-white px-6 py-3 rounded-lg hover:bg-blue-800 transition-colors shadow-md font-medium border border-blue-600"
-              >
-                <FaBook className="w-5 h-5" />
-                Browse Categories
-              </Link>
             </div>
           </div>
-        </motion.div>
+        </Reveal>
 
-        {/* Guidelines Section */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={fadeIn}
-          className="mt-24 bg-white dark:bg-gray-800 rounded-2xl shadow-md border border-gray-100 dark:border-gray-700 p-8 relative overflow-hidden"
-        >
-          {/* Background Pattern */}
-          <div className="absolute top-0 right-0 w-40 h-40 bg-blue-50 dark:bg-blue-900/20 rounded-full blur-3xl -z-10"></div>
+        {/* Guidelines */}
+        <Reveal className="mt-24">
+          <div className="hud-panel relative overflow-hidden rounded-3xl p-8 shadow-md">
+            <div className="pointer-events-none absolute right-0 top-0 h-40 w-40 rounded-full bg-primary/10 blur-3xl" />
 
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
-            <FaBook className="mr-3 text-blue-500" />
-            Contribution Guidelines
-          </h2>
+            <h2 className="mb-6 flex items-center font-mono text-2xl font-bold text-foreground">
+              <BookOpen className="mr-3 h-6 w-6 text-primary" />
+              Contribution Guidelines
+            </h2>
 
-          <div className="prose max-w-none text-gray-600 dark:text-gray-300">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {[
-                "Ensure your contribution follows our code of conduct and style guidelines",
-                "Test your changes locally before submitting a pull request",
-                "Include clear commit messages and documentation updates",
-                "Be responsive to feedback and questions about your contribution",
-                "Help review other contributions when possible",
-                "Follow the pull request template for better documentation",
-                "Add appropriate tests when implementing new features",
-                "Update documentation when necessary",
-              ].map((guideline, index) => (
-                <div key={index} className="flex items-start gap-3">
-                  <div className="mt-0.5 bg-green-100 dark:bg-green-900/30 rounded-full p-1 text-green-600 dark:text-green-400 flex-shrink-0">
-                    <HiOutlineCheck className="w-4 h-4" />
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+              {GUIDELINES.map((guideline) => (
+                <div key={guideline} className="flex items-start gap-3">
+                  <div className="mt-0.5 flex shrink-0 rounded-full bg-emerald-500/10 p-1 text-emerald-500">
+                    <Check className="h-4 w-4" />
                   </div>
-                  <span>{guideline}</span>
+                  <span className="text-sm text-foreground/90">{guideline}</span>
                 </div>
               ))}
             </div>
-          </div>
 
-          <div className="mt-8 pt-8 border-t border-gray-100 dark:border-gray-700">
-            <a
-              href="https://github.com/NotHarshhaa/devops-cheatsheet/blob/main/CONTRIBUTING.md"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center px-6 py-3 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-800/30 transition-colors"
-            >
-              Read full guidelines
-              <HiOutlineArrowNarrowRight className="w-5 h-5 ml-2" />
-            </a>
+            <div className="mt-8 border-t border-border/60 pt-8">
+              <a
+                href={`${GITHUB_REPO}/blob/master/CONTRIBUTING.md`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-xl border border-border/80 bg-secondary/60 px-6 py-3 font-mono text-xs font-semibold text-primary transition-all hover:border-primary/40 hover:shadow-md"
+              >
+                Read full guidelines
+                <ArrowRight className="h-4 w-4" />
+              </a>
+            </div>
           </div>
-        </motion.div>
+        </Reveal>
       </div>
     </div>
   );

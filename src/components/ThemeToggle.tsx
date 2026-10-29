@@ -1,7 +1,7 @@
 "use client";
 
 import { memo, useCallback } from "react";
-import { FaMoon, FaSun } from "react-icons/fa";
+import { Moon, Sun } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { useIsLowEndDevice } from "@/hooks/useOptimizedAnimation";
@@ -23,7 +23,7 @@ export function ThemeToggleComponent() {
         className="flex items-center justify-center h-9 w-9 rounded-xl border border-border/60 bg-muted/40 text-transparent"
         aria-hidden="true"
       >
-        <FaSun className="w-4 h-4" />
+        <Sun className="w-4 h-4" />
       </div>
     );
   }
@@ -63,11 +63,11 @@ export function ThemeToggleComponent() {
               {...animationProps}
               className="text-yellow-400"
             >
-              <FaMoon className="w-4 h-4" />
+              <Moon className="w-4 h-4" />
             </motion.div>
           ) : (
             <motion.div key="sun" {...animationProps} className="text-primary">
-              <FaSun className="w-4 h-4" />
+              <Sun className="w-4 h-4" />
             </motion.div>
           )}
         </AnimatePresence>

@@ -4,6 +4,8 @@ import { marked } from 'marked';
 import DOMPurify from 'isomorphic-dompurify';
 import { getCheatsheetBySlug, getAllCheatsheets } from '@/utils/markdown';
 import { categoryData, type Category } from '@/utils/categoryData';
+import { parseCheatsheet, type RenderSection } from '@/utils/parseCheatsheet';
+import { highlightCode } from '@/utils/shikiServer';
 import { CheatsheetPageClient } from './CheatsheetPageClient';
 
 type RouteParams = {
@@ -49,7 +51,40 @@ export default async function CheatsheetPage({
     notFound();
   }
 
-  const parsedContent = await marked.parse(cheatsheet.content, { async: false });
+  // Sections and code highlighting are computed once at build time so the
+  // client bundle only receives final HTML.
+  const sections: RenderSection[] = [];
+  for (const section of parseCheatsheet(cheatsheet.content)) {
+    const blocks = [];
+    for (const block of section.blocks) {
+      if (block.type === 'code') {
+        blocks.push({
+          type: 'code' as const,
+          language: block.language,
+          code: block.value,
+          html: await highlightCode(block.value, block.language),
+        });
+      } else if (block.type === 'text') {
+        const html = marked.parse(block.value, { async: false }) as string;
+        blocks.push({ type: 'text' as const, html: DOMPurify.sanitize(html) });
+      } else {
+        blocks.push({
+          type: 'list' as const,
+          value: block.value.map(
+            (item) => DOMPurify.sanitize(marked.parseInline(item, { async: false }) as string)
+          ),
+        });
+      }
+    }
+    sections.push({ id: section.id, title: section.title, blocks });
+  }
+
+  const { cheatsheets: sameCategory } = await getAllCheatsheets(resolved.category, 1, 1000);
+  const related = sameCategory
+    .filter((item) => item.slug !== resolved.slug)
+    .slice(0, 3)
+    .map(({ title, slug, difficulty, description }) => ({ title, slug, difficulty, description }));
+
   const words = cheatsheet.content.trim().split(/\s+/).length;
   const readingTime = `${Math.max(1, Math.round(words / 200))} min read`;
 
@@ -62,7 +97,8 @@ export default async function CheatsheetPage({
       description={cheatsheet.description}
       difficulty={cheatsheet.difficulty}
       popularity={cheatsheet.popularity}
-      parsedContent={DOMPurify.sanitize(parsedContent)}
+      sections={sections}
+      related={related}
       rawMarkdown={cheatsheet.content}
       readingTime={readingTime}
     />

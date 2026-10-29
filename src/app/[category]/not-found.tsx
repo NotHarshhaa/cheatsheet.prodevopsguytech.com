@@ -1,39 +1,44 @@
 import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { Home } from 'lucide-react';
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-black dark:to-gray-900">
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="text-center">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white sm:text-4xl">
-            Category Not Found
-          </h2>
-          <p className="mt-4 text-lg text-gray-600 dark:text-gray-300">
-            Sorry, we couldn&apos;t find the category you&apos;re looking for.
+    <div className="bg-cyber-grid mask-fade-b relative flex min-h-screen items-center justify-center px-4">
+      <div className="hero-glow pointer-events-none absolute inset-0 -z-10" />
+
+      <div className="relative w-full max-w-lg overflow-hidden rounded-3xl border border-zinc-800 bg-zinc-950 font-mono text-zinc-300 shadow-2xl">
+        <div className="flex items-center gap-2 border-b border-zinc-800/80 bg-zinc-900/90 px-4 py-3">
+          <span className="h-2.5 w-2.5 rounded-full bg-red-500/80" />
+          <span className="h-2.5 w-2.5 rounded-full bg-yellow-500/80" />
+          <span className="h-2.5 w-2.5 rounded-full bg-green-500/80" />
+          <span className="ml-2 font-sans text-xs text-zinc-400">devops-hub — 404</span>
+        </div>
+
+        <div className="space-y-4 p-8 text-sm">
+          <p className="text-cyan-400">
+            <span className="text-zinc-500">$</span> devops-hub hub --resolve
           </p>
-          <div className="mt-8">
-            <Link
-              href="/"
-              className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-            >
-              Go back home
-              <svg
-                className="ml-2 -mr-1 w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-                />
-              </svg>
+          <div className="space-y-1.5 border-l border-zinc-800 pl-4">
+            <p className="font-semibold text-red-400">✗ Category not found</p>
+            <p className="text-zinc-400">
+              Sorry, we couldn&apos;t find the category you&apos;re looking for.
+            </p>
+            <p className="text-xs text-zinc-500">
+              hint: press <span className="text-emerald-400">⌘K</span> to browse all hubs
+            </p>
+          </div>
+
+          <div className="pt-2">
+            <Link href="/">
+              <Button className="cursor-pointer gap-2 rounded-xl bg-gradient-to-r from-cyan-500 via-blue-600 to-purple-600 font-semibold text-white shadow-lg hover:from-cyan-600 hover:to-purple-700">
+                <Home className="h-4 w-4" />
+                Go back home
+              </Button>
             </Link>
           </div>
         </div>
-      </main>
+      </div>
     </div>
   );
-} 
+}
