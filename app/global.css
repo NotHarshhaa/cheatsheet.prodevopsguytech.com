@@ -5,6 +5,7 @@
 @theme {
   --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-mono), ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  --font-display: var(--font-display), var(--font-sans), sans-serif;
   /* Square corners everywhere, Fumadocs components included: they use these same tokens.
      rounded-full stays round, for dots. */
   --radius-xs: 0px;

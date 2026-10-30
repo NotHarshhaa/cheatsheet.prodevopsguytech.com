@@ -1,3 +1,9 @@
+if (process.env.NODE_ENV === 'development') {
+  process.env.CHOKIDAR_USEPOLLING = 'true'
+  process.env.CHOKIDAR_INTERVAL = '500'
+  process.env.WATCHPACK_POLLING = 'true'
+}
+
 import { createMDX } from 'fumadocs-mdx/next'
 
 const withMDX = createMDX()
