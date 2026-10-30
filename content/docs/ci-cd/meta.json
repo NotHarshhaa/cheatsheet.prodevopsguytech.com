@@ -1,0 +1,9 @@
+{
+  "title": "CI/CD Automation",
+  "pages": [
+    "circleci",
+    "github-actions",
+    "gitlab-ci",
+    "jenkins"
+  ]
+}

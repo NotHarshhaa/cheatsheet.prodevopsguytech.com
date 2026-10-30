@@ -1,28 +1,35 @@
+import { createMDX } from 'fumadocs-mdx/next'
+
+const withMDX = createMDX()
+
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  turbopack: {},
-
-  compiler: {
-    removeConsole: process.env.NODE_ENV === "production",
-    reactRemoveProperties: process.env.NODE_ENV === "production",
-  },
-
+const config = {
+  reactStrictMode: true,
   images: {
-    formats: ["image/avif", "image/webp"],
     remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "**",
-      },
+      { protocol: 'https', hostname: '**' },
+      { protocol: 'http', hostname: '**' },
     ],
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
-    imageSizes: [16, 32, 48, 64, 96, 128, 256],
   },
+  async redirects() {
+    return [
+      { source: '/opengraph-image', destination: '/og/image.png', permanent: true },
+      { source: '/CI-CD/:slug*', destination: '/docs/ci-cd/:slug*', permanent: true },
+      { source: '/Containerization/:slug*', destination: '/docs/containerization/:slug*', permanent: true },
+      { source: '/Cloud/:slug*', destination: '/docs/cloud/:slug*', permanent: true },
+      { source: '/Infrastructure-Management/:slug*', destination: '/docs/infrastructure-management/:slug*', permanent: true },
+      { source: '/Monitoring/:slug*', destination: '/docs/monitoring/:slug*', permanent: true },
+      { source: '/Networking/:slug*', destination: '/docs/networking/:slug*', permanent: true },
+      { source: '/Security/:slug*', destination: '/docs/security/:slug*', permanent: true },
+      { source: '/Version-Control/:slug*', destination: '/docs/version-control/:slug*', permanent: true },
+    ]
+  },
+  async rewrites() {
+    return [
+      { source: '/docs.md', destination: '/llms.mdx/docs' },
+      { source: '/docs/:path+.md', destination: '/llms.mdx/docs/:path+' },
+    ]
+  },
+}
 
-  productionBrowserSourceMaps: false,
-  poweredByHeader: false,
-  compress: true,
-  staticPageGenerationTimeout: 120,
-};
-
-export default nextConfig;
+export default withMDX(config)

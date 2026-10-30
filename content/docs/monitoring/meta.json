@@ -1,0 +1,10 @@
+{
+  "title": "Monitoring & Observability",
+  "pages": [
+    "cloudwatch",
+    "elk-stack",
+    "grafana",
+    "nagios",
+    "prometheus"
+  ]
+}

@@ -1,0 +1,71 @@
+---
+title: Welcome to DevOps Cheatsheet
+description: Modern, battle-tested command references, architecture patterns, and syntax guides for engineers who build fast.
+---
+
+import { Cards, Card } from 'fumadocs-ui/components/card'
+import { Terminal, Box, Cloud, Server, GitBranch, Shield, Network, BarChart2 } from 'lucide-react'
+
+Welcome to the **DevOps Cheatsheet** documentation hub. This resource contains production-verified commands, configuration templates, and operational best practices across **35+ industry-standard tools** and **8 core architecture disciplines**.
+
+## Architecture Hubs
+
+<Cards>
+  <Card
+    icon={<Box className="size-5 text-orange-400" />}
+    title="Containerization & K8s"
+    href="/docs/containerization/docker"
+    description="Docker, Kubernetes, Helm, Podman, CRI-O, and OpenShift container runtimes and orchestrators."
+  />
+  <Card
+    icon={<Terminal className="size-5 text-blue-400" />}
+    title="CI/CD Automation"
+    href="/docs/ci-cd/github-actions"
+    description="GitHub Actions, GitLab CI/CD, Jenkins, and CircleCI automation workflows and deployment pipelines."
+  />
+  <Card
+    icon={<Cloud className="size-5 text-purple-400" />}
+    title="Cloud Architecture"
+    href="/docs/cloud/aws"
+    description="AWS, Microsoft Azure, Google Cloud Platform, EKS on AWS, and Terraform on AWS guides."
+  />
+  <Card
+    icon={<Server className="size-5 text-emerald-400" />}
+    title="Infrastructure as Code"
+    href="/docs/infrastructure-management/terraform"
+    description="Terraform, Ansible, Chef, and Puppet declarative provisioning and configuration management."
+  />
+  <Card
+    icon={<GitBranch className="size-5 text-indigo-400" />}
+    title="Version Control"
+    href="/docs/version-control/github"
+    description="Git CLI mastery, GitHub pull request workflows, GitLab, and Bitbucket branching patterns."
+  />
+  <Card
+    icon={<Shield className="size-5 text-rose-400" />}
+    title="Security & Secrets"
+    href="/docs/security/hashicorp-vault"
+    description="HashiCorp Vault secrets, Trivy scanner, Aqua Security, and SonarQube code quality."
+  />
+  <Card
+    icon={<Network className="size-5 text-cyan-400" />}
+    title="Networking & Mesh"
+    href="/docs/networking/istio"
+    description="Istio service mesh, HashiCorp Consul, Envoy Proxy, and Linkerd mTLS and traffic shaping."
+  />
+  <Card
+    icon={<BarChart2 className="size-5 text-teal-400" />}
+    title="Monitoring & Observability"
+    href="/docs/monitoring/prometheus"
+    description="Prometheus PromQL, Grafana visualization dashboards, ELK Stack, CloudWatch, and Nagios."
+  />
+</Cards>
+
+---
+
+## How to Use This Hub
+
+- **Search Anything:** Press <kbd>Ctrl</kbd> + <kbd>K</kbd> (or <kbd>⌘</kbd> + <kbd>K</kbd> on macOS) to instantly search all 35 cheatsheets by command, keyword, or tool name.
+- **Copy Terminal Commands:** Every code block has an instant one-click copy button.
+- **Raw Markdown & AI Exports:** Every cheatsheet is available as raw Markdown at `/docs/<category>/<tool>.md` and compiled into `/llms.txt` and `/llms-full.txt` for agentic workflows.
+- **Edit & Contribute:** Found an updated CLI flag or new recipe? Click **"Edit on GitHub"** at the bottom of any page to submit a pull request!

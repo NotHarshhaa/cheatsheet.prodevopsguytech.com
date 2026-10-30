@@ -1,0 +1,15 @@
+{
+  "title": "DevOps Cheatsheet",
+  "root": true,
+  "pages": [
+    "index",
+    "ci-cd",
+    "cloud",
+    "containerization",
+    "infrastructure-management",
+    "monitoring",
+    "networking",
+    "security",
+    "version-control"
+  ]
+}

@@ -1,0 +1,365 @@
+@import 'tailwindcss';
+@import 'fumadocs-ui/css/black.css';
+@import 'fumadocs-ui/css/preset.css';
+
+@theme {
+  --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-mono), ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  /* Square corners everywhere, Fumadocs components included: they use these same tokens.
+     rounded-full stays round, for dots. */
+  --radius-xs: 0px;
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --radius-2xl: 0px;
+  --radius-3xl: 0px;
+  --radius-4xl: 0px;
+  /* Stronger than the browser curves, so short transitions still read as deliberate. */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+/* Blueprint: untinted ink on white or soft charcoal, hairline rules, and one orange signal for
+   primary actions, the current page, and focus. Every text color on every surface was checked for
+   4.5:1. */
+:root {
+  --color-fd-background: #ffffff;
+  --color-fd-foreground: #0a0a0a;
+  --color-fd-card: #fafafa;
+  --color-fd-card-foreground: #0a0a0a;
+  --color-fd-popover: #ffffff;
+  --color-fd-popover-foreground: #0a0a0a;
+  --color-fd-muted: #f5f5f5;
+  --color-fd-muted-foreground: #5c5c5c;
+  --color-fd-secondary: #f5f5f5;
+  --color-fd-secondary-foreground: #0a0a0a;
+  --color-fd-accent: #efefef;
+  --color-fd-accent-foreground: #0a0a0a;
+  --color-fd-border: #e6e6e6;
+  --color-fd-primary: #b24a24;
+  --color-fd-primary-foreground: #fff7ed;
+  --color-fd-ring: #dd8a66;
+}
+
+.dark {
+  --color-fd-background: #0f0f0f;
+  --color-fd-foreground: #ededed;
+  --color-fd-card: #141414;
+  --color-fd-card-foreground: #ededed;
+  --color-fd-popover: #141414;
+  --color-fd-popover-foreground: #ededed;
+  --color-fd-muted: #181818;
+  --color-fd-muted-foreground: #a3a3a3;
+  --color-fd-secondary: #181818;
+  --color-fd-secondary-foreground: #ededed;
+  --color-fd-accent: #202020;
+  --color-fd-accent-foreground: #ededed;
+  --color-fd-border: #252525;
+  --color-fd-primary: #f4a261;
+  --color-fd-primary-foreground: #1c1206;
+  --color-fd-ring: #c8602c;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--color-fd-primary) 22%, transparent);
+}
+
+/* github-light-high-contrast comments (#66707b) reach only 3.7:1 on highlighted lines. Darken that one token. */
+.shiki span[style*='--shiki-light:#66707b' i] {
+  --shiki-light: #57606a !important;
+}
+
+h1,
+h2,
+h3 {
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+/* Headings named after long API identifiers, such as createPostgresManagementRepository, must
+   wrap on phones. The heading is a flex row, so its link needs min-width: 0 to shrink. */
+.prose :is(h2, h3, h4) > a {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.prose :where(code):not(pre code) {
+  font-size: 0.875em;
+}
+
+/* Pressable things answer on pointer-down, before anything navigates or runs. */
+.pressable:active {
+  transform: scale(0.97);
+}
+
+/* Inline links on the landing page. */
+.link {
+  color: var(--color-fd-foreground);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklab, var(--color-fd-foreground) 30%, transparent);
+  text-underline-offset: 0.25em;
+  transition: text-decoration-color 150ms var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .link:hover,
+  .group:hover .link {
+    text-decoration-color: var(--color-fd-primary);
+  }
+}
+
+/* Decorative motion on the landing page: the packets travelling through the delivery drawing.
+   The drawing itself shows its resolved frame (see components/landing/delivery.tsx). */
+@media (prefers-reduced-motion: reduce) {
+  .motion-only {
+    display: none;
+  }
+
+  .pressable:active {
+    transform: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------------------------
+   Blueprint chrome, after Better Auth, Firecrawl, and Cloudflare: hairline rails, monospace
+   uppercase labels in the chrome, and neutral active states with a thin orange marker. These
+   rules reach into Fumadocs by id and data attribute; recheck them after a Fumadocs upgrade.
+   ------------------------------------------------------------------------------------------ */
+
+/* Header. On the home page it lines up with the landing frame and carries its rails up. */
+#nd-home-layout {
+  --fd-layout-width: 80rem;
+}
+
+@media (min-width: 640px) {
+  #nd-nav > div > div {
+    border-inline: 1px solid var(--color-fd-border);
+  }
+
+  #nd-nav nav {
+    padding-inline: 2.5rem;
+  }
+}
+
+/* Header links read as labels, with an underline instead of a color for the current one. */
+#nd-nav nav ul a,
+#nd-notebook-layout header a[data-active] {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+#nd-nav nav ul a[data-active='true'],
+#nd-notebook-layout header a[data-active='true'] {
+  color: var(--color-fd-foreground);
+  text-decoration: underline;
+  text-decoration-color: var(--color-fd-primary);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.6em;
+}
+
+/* Fumadocs keeps a few pills round on purpose; square them like everything else. */
+[data-theme-toggle],
+[data-theme-toggle] > *,
+button[data-search-full],
+button[data-search],
+#nd-page kbd,
+#nd-nav kbd {
+  border-radius: 0;
+}
+
+/* Sidebar: behind a hairline, with neutral text, a quiet fill, and a 2px orange edge for the
+   current page. */
+@media (min-width: 768px) {
+  #nd-sidebar {
+    border-inline-end: 1px solid var(--color-fd-border);
+  }
+}
+
+#nd-sidebar a[data-active='true'] {
+  background: var(--color-fd-accent);
+  color: var(--color-fd-foreground);
+  box-shadow: inset 2px 0 0 var(--color-fd-primary);
+}
+
+#nd-sidebar a[data-active='true']::before {
+  display: none;
+}
+
+/* Table of contents: the current heading in full ink rather than orange. */
+#nd-toc a[data-active='true'] {
+  color: var(--color-fd-foreground);
+}
+
+/* Page content. Square corners make the default padding feel cramped, so code sits 20px from
+   every edge and file names, tabs, and the copy button line up with it. */
+#nd-page h1 {
+  font-weight: 500;
+  letter-spacing: -0.03em;
+}
+
+figure.shiki {
+  box-shadow: none;
+}
+
+figure.shiki,
+figure.shiki .shiki {
+  --padding-left: 1.25rem;
+  --padding-right: 1.25rem;
+}
+
+figure.shiki > div.fd-scroll-container {
+  padding-block: 1.25rem;
+}
+
+figure.shiki > div:has(> figcaption) {
+  height: 2.75rem;
+  padding-inline: 1.25rem;
+}
+
+figure.shiki figcaption {
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+figure.shiki > div.absolute {
+  top: 1rem;
+  right: 0.75rem;
+}
+
+/* Tabs: the current one in full ink; its underline keeps the accent. */
+#nd-page div:has(> [role='tablist']) > [role='tablist'] {
+  padding-inline: 0.75rem;
+}
+
+#nd-page [role='tab'][data-state='active'] {
+  color: var(--color-fd-foreground);
+}
+
+/* Steps: square counters on the rail. */
+.fd-step::before {
+  border-radius: 0;
+  border: 1px solid var(--color-fd-border);
+  background: var(--color-fd-background);
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+/* Previous/next footer: cells on the shared hairline grid (see .grid-cells). */
+.page-footer > a {
+  border: 0;
+  background: var(--color-fd-background);
+  padding: 1.25rem;
+}
+
+/* Linked cards: an arrow slides in on hover. */
+.card-link {
+  position: relative;
+  padding-right: 2.75rem;
+}
+
+.card-link::after {
+  content: '';
+  position: absolute;
+  top: 1.375rem;
+  right: 1.25rem;
+  width: 0.875rem;
+  height: 0.875rem;
+  background: var(--color-fd-muted-foreground);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 8h10M9 4l4 4-4 4'/%3E%3C/svg%3E")
+    center / contain no-repeat;
+  opacity: 0;
+  transform: translateX(-4px);
+  transition:
+    opacity 150ms var(--ease-out),
+    transform 150ms var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .card-link:hover::after {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-link::after {
+    transform: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------------------------
+   Shared patterns for the landing page and docs components.
+   ------------------------------------------------------------------------------------------ */
+
+@layer components {
+  /* Hairline grid: cells separated by a 1px gap that shows the border color, after Better
+     Auth's feature cells. In the components layer, so a cell's own bg-* or hover:bg-* utility
+     still wins over the default fill. */
+  .grid-cells {
+    display: grid;
+    gap: 1px;
+    border: 1px solid var(--color-fd-border);
+    background: var(--color-fd-border);
+  }
+
+  .grid-cells > * {
+    background: var(--color-fd-background);
+  }
+}
+
+/* Crosshairs on a hairline grid mark only the inner crossings: not the last column, not the
+   last row. The breakpoints here must match the grids' column counts in app/(home)/page.tsx:
+   .cells-4 is sm:grid-cols-2 xl:grid-cols-4, .cells-2 is sm:grid-cols-2. */
+.cell-mark {
+  display: none;
+}
+
+@media (min-width: 640px) and (max-width: 1279px) {
+  .cells-4 > :not(:nth-child(2n), :nth-last-child(-n + 2)) > .cell-mark {
+    display: block;
+  }
+}
+
+@media (min-width: 1280px) {
+  .cells-4 > :not(:nth-child(4n), :nth-last-child(-n + 4)) > .cell-mark {
+    display: block;
+  }
+}
+
+@media (min-width: 640px) {
+  .cells-2 > :not(:nth-child(2n), :nth-last-child(-n + 2)) > .cell-mark {
+    display: block;
+  }
+}
+
+/* Secondary buttons carry crop marks on two corners, like Better Auth's outlined buttons. */
+.ticks {
+  position: relative;
+}
+
+.ticks::before,
+.ticks::after {
+  content: '';
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  pointer-events: none;
+  opacity: 0.6;
+  background:
+    linear-gradient(currentColor, currentColor) center / 1px 100% no-repeat,
+    linear-gradient(currentColor, currentColor) center / 100% 1px no-repeat;
+}
+
+.ticks::before {
+  left: -5px;
+  top: -5px;
+}
+
+.ticks::after {
+  right: -5px;
+  bottom: -5px;
+}

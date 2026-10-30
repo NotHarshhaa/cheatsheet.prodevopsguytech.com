@@ -1,5 +1,12 @@
-node_modules
-.next
+node_modules/
+dist/
+coverage/
+*.tgz
 .env
-.env.local
-tsconfig.tsbuildinfo
+.DS_Store
+.next/
+.source/
+out/
+*.tsbuildinfo
+.ba-storage-matrix-*/
+apps/docs/next-env.d.ts

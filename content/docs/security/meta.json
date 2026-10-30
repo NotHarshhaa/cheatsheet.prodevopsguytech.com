@@ -1,0 +1,9 @@
+{
+  "title": "Security & Secrets",
+  "pages": [
+    "aquasec",
+    "hashicorp-vault",
+    "sonarqube",
+    "trivy"
+  ]
+}

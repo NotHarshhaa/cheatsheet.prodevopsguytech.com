@@ -1,0 +1,17 @@
+{
+  "$schema": "https://modelcontextprotocol.io/schema/draft/server.json",
+  "name": "com.prodevopsguytech/devops-cheatsheet",
+  "title": "DevOps Cheatsheet MCP Server",
+  "description": "Production DevOps Command Cheatsheets, instant syntax, cloud architecture templates, and automation scripts.",
+  "repository": {
+    "url": "https://github.com/NotHarshhaa/devops-cheatsheet",
+    "source": "github"
+  },
+  "websiteUrl": "https://cheatsheet.prodevopsguytech.com",
+  "remotes": [
+    {
+      "type": "sse",
+      "url": "https://cheatsheet.prodevopsguytech.com/api/mcp"
+    }
+  ]
+}

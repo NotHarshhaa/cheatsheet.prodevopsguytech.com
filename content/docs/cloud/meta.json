@@ -1,0 +1,10 @@
+{
+  "title": "Cloud Architecture",
+  "pages": [
+    "aws",
+    "azure",
+    "gcp",
+    "kubernetes-on-aws",
+    "terraform-on-aws"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "title": "Containerization & K8s",
+  "pages": [
+    "cri-o",
+    "docker",
+    "helm",
+    "kubernetes",
+    "openshift",
+    "podman"
+  ]
+}
